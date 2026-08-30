@@ -1,6 +1,15 @@
 /* Home-only progressive enhancement. It waits for the existing React Landing page,
    preserves the current app logic, and adds the richer storytelling sections. */
 (function(){
+  function loadCss(){
+    if(document.querySelector('link[data-statskill-home-enhancement]')) return;
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href='/src/home-enhancement.css';
+    link.dataset.statskillHomeEnhancement='1';
+    document.head.appendChild(link);
+  }
+
   const courses=[
     ['OFFICIAL STATISTICS','Sampling Design Fundamentals','NSSTA • 6 hours','https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=88'],
     ['DATA QUALITY','Data Quality Framework','MoSPI / NSS • 4.5 hours','https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=88'],
@@ -8,6 +17,7 @@
   ];
 
   function build(){
+    loadCss();
     const main=document.querySelector('main');
     const roles=document.querySelector('.roles');
     if(!main||!roles||main.querySelector('.ss-story')) return;

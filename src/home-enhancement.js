@@ -1,98 +1,41 @@
-/* Home-only progressive enhancement. It waits for the existing React Landing page,
-   preserves the current app logic, and adds the richer storytelling sections. */
+/* Home-only progressive enhancement. Preserves the existing React app and adds richer motion/interactions. */
 (function(){
   function loadCss(){
     if(document.querySelector('link[data-statskill-home-enhancement]')) return;
-    const link=document.createElement('link');
-    link.rel='stylesheet';
-    link.href='/src/home-enhancement.css';
-    link.dataset.statskillHomeEnhancement='1';
-    document.head.appendChild(link);
+    const link=document.createElement('link');link.rel='stylesheet';link.href='/src/home-enhancement.css';link.dataset.statskillHomeEnhancement='1';document.head.appendChild(link);
+    const dynamic=document.createElement('link');dynamic.rel='stylesheet';dynamic.href='/src/dynamic-home.css';dynamic.dataset.statskillDynamicHome='1';document.head.appendChild(dynamic);
   }
-
   const courses=[
     ['OFFICIAL STATISTICS','Sampling Design Fundamentals','NSSTA • 6 hours','https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=88'],
     ['DATA QUALITY','Data Quality Framework','MoSPI / NSS • 4.5 hours','https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=88'],
     ['STATISTICAL COMPUTING','Advanced Survey Estimation','NSSTA • 8 hours','https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?auto=format&fit=crop&w=1200&q=88']
   ];
-
   function build(){
     loadCss();
-    const main=document.querySelector('main');
-    const roles=document.querySelector('.roles');
+    const main=document.querySelector('main');const roles=document.querySelector('.roles');
     if(!main||!roles||main.querySelector('.ss-story')) return;
-
-    roles.insertAdjacentHTML('afterend', `
-      <section class="ss-story">
-        <div class="ss-story-inner">
-          <div class="ss-story-copy">
-            <small>LEARNING IN THE FLOW OF WORK</small>
-            <h2>Turn capability into confidence.</h2>
-            <p>StatSkill AI connects competency evidence, role requirements, learning and assessment into one continuous journey for India's statistical workforce.</p>
-          </div>
-          <div class="ss-story-card"><strong>360°</strong><span>capacity-building loop — from individual learning to workforce intelligence</span></div>
-        </div>
-      </section>
-      <section class="ss-stats">
-        <div class="ss-stats-inner">
-          <span class="ss-stats-label">THE SCALE OF THE MISSION</span>
-          <h2>Learning infrastructure designed for a national workforce.</h2>
-          <div class="ss-stat-grid">
-            <div class="ss-stat"><span class="num" data-count="172000">0</span><span class="label">Learners onboarded</span></div>
-            <div class="ss-stat"><span class="num" data-count="6271">0</span><span class="label">Courses and learning resources</span></div>
-            <div class="ss-stat"><span class="num" data-count="15058531">0</span><span class="label">Learning completions</span></div>
-            <div class="ss-stat"><span class="num" data-count="1629660">0</span><span class="label">Monthly active learners</span></div>
-          </div>
-        </div>
-      </section>
-      <section class="ss-courses">
-        <div class="ss-courses-inner">
-          <div class="ss-course-head">
-            <div><span class="eyebrow">CURATED LEARNING</span><h2>Learning paths built around real statistical work.</h2></div>
-            <p>Move from a competency gap to the next best learning action with role-aware recommendations.</p>
-          </div>
-          <div class="ss-course-track">
-            ${courses.map((c,i)=>`<article class="ss-course"><div class="ss-course-image" style="background-image:url('${c[3]}')"></div><div class="ss-course-body"><small>${c[0]}</small><h3>${c[1]}</h3><div class="ss-course-meta"><span>${c[2]}</span><span>★ 4.${7+i}</span></div><div class="ss-course-arrow"><span>Explore course</span><span>→</span></div></div></article>`).join('')}
-          </div>
-        </div>
-      </section>
-      <section class="ss-ai">
-        <div class="ss-ai-inner">
-          <div class="ss-ai-copy"><small>STATSKILL INTELLIGENCE</small><h2>Learning that understands your role.</h2><p>The AI layer connects competency, skills, learning, assessment and workforce signals — while keeping recommendations explainable and grounded in approved material.</p><button class="primary" type="button">Explore AI Advisor →</button></div>
-          <div class="ss-ai-visual">
-            <div class="ss-ai-core"><div><b>AI</b><span>StatSkill Intelligence</span></div></div>
-            <div class="ss-node n1">Competency</div><div class="ss-node n2">Learning</div><div class="ss-node n3">Assessment</div><div class="ss-node n4">Workforce</div><div class="ss-node n5">Skills</div>
-          </div>
-        </div>
-      </section>`);
-
-    animateCounters();
+    roles.insertAdjacentHTML('afterend',`
+      <section class="ss-story ss-reveal"><div class="ss-story-inner ss-parallax"><div class="ss-story-copy"><small>LEARNING IN THE FLOW OF WORK</small><h2>Turn capability into confidence.</h2><p>StatSkill AI connects competency evidence, role requirements, learning and assessment into one continuous journey for India's statistical workforce.</p></div><div class="ss-story-card"><strong>360°</strong><span>capacity-building loop — from individual learning to workforce intelligence</span></div></div></section>
+      <section class="ss-stats ss-reveal"><div class="ss-stats-inner"><span class="ss-stats-label">THE SCALE OF THE MISSION</span><h2>Learning infrastructure designed for a national workforce.</h2><div class="ss-stat-grid ss-stagger"><div class="ss-stat"><span class="num" data-count="172000">0</span><span class="label">Learners onboarded</span></div><div class="ss-stat"><span class="num" data-count="6271">0</span><span class="label">Courses and learning resources</span></div><div class="ss-stat"><span class="num" data-count="15058531">0</span><span class="label">Learning completions</span></div><div class="ss-stat"><span class="num" data-count="1629660">0</span><span class="label">Monthly active learners</span></div></div></div></section>
+      <section class="ss-courses ss-reveal"><div class="ss-courses-inner"><div class="ss-course-head"><div><span class="eyebrow">CURATED LEARNING</span><h2>Learning paths built around real statistical work.</h2></div><p>Move from a competency gap to the next best learning action with role-aware recommendations.</p></div><div class="ss-course-track ss-stagger">${courses.map(c=>`<article class="ss-course"><div class="ss-course-image" style="background-image:url('${c[3]}')"></div><div class="ss-course-body"><small>${c[0]}</small><h3>${c[1]}</h3><div class="ss-course-meta"><span>${c[2]}</span><span>★ 4.8</span></div><div class="ss-course-arrow"><span>Explore course</span><span>→</span></div></div></article>`).join('')}</div></div></section>
+      <section class="ss-ai ss-reveal"><div class="ss-ai-inner"><div class="ss-ai-copy"><small>STATSKILL INTELLIGENCE</small><h2>Learning that understands your role.</h2><p>The AI layer connects competency, skills, learning, assessment and workforce signals — while keeping recommendations explainable and grounded in approved material.</p><button class="primary" type="button" data-scroll-target=".roles">Explore AI Advisor →</button></div><div class="ss-ai-visual ss-interactive"><div class="ss-ai-core"><div><b>AI</b><span>StatSkill Intelligence</span></div></div><div class="ss-node n1">Competency</div><div class="ss-node n2">Learning</div><div class="ss-node n3">Assessment</div><div class="ss-node n4">Workforce</div><div class="ss-node n5">Skills</div></div></div></section>`);
+    animateCounters();enhanceMotion();
   }
-
-  function animateCounters(){
-    const nums=[...document.querySelectorAll('.ss-stat .num')];
-    if(!nums.length) return;
-    const format=n=>n.toLocaleString('en-IN');
-    const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(!entry.isIntersecting||entry.target.dataset.done) return;
-      entry.target.dataset.done='1';
-      const target=Number(entry.target.dataset.count),start=performance.now(),duration=1300;
-      const tick=now=>{const p=Math.min(1,(now-start)/duration);entry.target.textContent=format(Math.floor(target*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(tick)};
-      requestAnimationFrame(tick);
-    }),{threshold:.35});
-    nums.forEach(n=>io.observe(n));
+  function animateCounters(){const nums=[...document.querySelectorAll('.ss-stat .num')];if(!nums.length)return;const format=n=>n.toLocaleString('en-IN');const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(!e.isIntersecting||e.target.dataset.done)return;e.target.dataset.done='1';const target=Number(e.target.dataset.count),start=performance.now(),duration=1400;const tick=now=>{const p=Math.min(1,(now-start)/duration);e.target.textContent=format(Math.floor(target*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.35});nums.forEach(n=>io.observe(n))}
+  function enhanceMotion(){
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems=[...document.querySelectorAll('.ss-reveal,.ss-stagger')];
+    if(reduce) revealItems.forEach(el=>el.classList.add('ss-visible')); else {const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('ss-visible');io.unobserve(e.target)}}),{threshold:.12});revealItems.forEach(el=>io.observe(el))}
+    if(!reduce){
+      document.querySelectorAll('.ss-course,.feature,.roleCards>div').forEach(card=>{card.classList.add('ss-tilt');card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(700px) rotateX(${(-y*3).toFixed(2)}deg) rotateY(${(x*3).toFixed(2)}deg) translateY(-6px)`});card.addEventListener('pointerleave',()=>{card.style.transform=''})});
+    }
+    const ai=document.querySelector('.ss-ai-visual');if(ai){ai.querySelectorAll('.ss-node').forEach(node=>node.addEventListener('click',()=>{ai.querySelectorAll('.ss-node').forEach(n=>n.classList.remove('is-active'));node.classList.add('is-active');setTimeout(()=>node.classList.remove('is-active'),1600)}));if(!reduce)ai.addEventListener('pointermove',e=>{const r=ai.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;const core=ai.querySelector('.ss-ai-core');if(core)core.style.transform=`translate(${(x*10).toFixed(1)}px,${(y*10).toFixed(1)}px)`});ai.addEventListener('pointerleave',()=>{const core=ai.querySelector('.ss-ai-core');if(core)core.style.transform=''})}
+    if(!document.querySelector('.ss-glow')&&!reduce){const glow=document.createElement('div');glow.className='ss-glow';document.body.appendChild(glow);window.addEventListener('pointermove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';glow.classList.add('is-visible')},{passive:true})}
+    if(!document.querySelector('.ss-progress-line')){const bar=document.createElement('div');bar.className='ss-progress-line';document.body.appendChild(bar);window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;bar.style.width=(h>0?(scrollY/h)*100:0)+'%'},{passive:true})}
+    if(!document.querySelector('.ss-backtop')){const b=document.createElement('button');b.className='ss-backtop';b.type='button';b.setAttribute('aria-label','Back to top');b.textContent='↑';document.body.appendChild(b);const update=()=>b.classList.toggle('is-visible',scrollY>700);window.addEventListener('scroll',update,{passive:true});b.addEventListener('click',()=>window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}));update()}
+    document.querySelectorAll('[data-scroll-target]').forEach(btn=>btn.addEventListener('click',()=>{const target=document.querySelector(btn.dataset.scrollTarget);if(target)target.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}));
   }
-
-  function nav(){
-    const top=document.querySelector('.top');
-    if(!top||top.dataset.enhanced) return;
-    top.dataset.enhanced='1';
-    const update=()=>top.classList.toggle('is-scrolled',window.scrollY>60);
-    window.addEventListener('scroll',update,{passive:true});update();
-  }
-
+  function nav(){const top=document.querySelector('.top');if(!top||top.dataset.enhanced)return;top.dataset.enhanced='1';const update=()=>top.classList.toggle('is-scrolled',window.scrollY>60);window.addEventListener('scroll',update,{passive:true});update()}
   function run(){build();nav()}
-  const observer=new MutationObserver(run);
-  observer.observe(document.body,{childList:true,subtree:true});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else setTimeout(run,0);
+  const observer=new MutationObserver(run);observer.observe(document.body,{childList:true,subtree:true});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else setTimeout(run,0);
 })();
